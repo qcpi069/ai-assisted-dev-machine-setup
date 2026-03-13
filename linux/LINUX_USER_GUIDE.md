@@ -4,6 +4,7 @@ This document explains how to set up and manage your development environment and
 
 ## 🚀 Quick Navigation
 - [0. Prerequisites](#0-prerequisites)
+- [✔️ Verifying Your Setup](#️-verifying-your-setup)
 - [1. Shell & Terminals](#1-shell--terminals)
 - [2. Managing Versions (The Switching Guide)](#2-managing-versions-the-switching-guide)
 - [3. Docker & Containers (Podman)](#3-docker--containers-podman)

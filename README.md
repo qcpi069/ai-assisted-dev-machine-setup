@@ -2,6 +2,18 @@
 
 A comprehensive, multi-platform workspace designed to automate the setup and management of an AI-optimized development environment. This project streamlines the installation of open-source tools, local AI frameworks, and development runtimes across macOS, Linux, and Windows (WSL 2).
 
+## 🗺 Quick Navigation
+- [🤖 Purpose & The Agent](#-purpose--the-agent)
+- [📁 Project Structure](#-project-structure)
+- [✅ Prerequisites](#-prerequisites)
+- [🚀 Getting Started](#-getting-started)
+- [🛠 Features & Included Tools](#-features--included-tools)
+- [⚙️ Version Management](#️-version-management)
+- [📏 Standards & Maintenance](#-standards--maintenance)
+- [📄 License](#-license)
+
+---
+
 ## 🤖 Purpose & The Agent
 This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenClaw, CrewAI, and Cline) and **Local LLMs** (via Ollama and LM Studio).
 

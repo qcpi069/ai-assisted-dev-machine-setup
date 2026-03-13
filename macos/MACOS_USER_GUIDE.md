@@ -2,6 +2,16 @@
 
 This guide covers prerequisites, setup, version management, and maintenance for your macOS AI development environment.
 
+## 🗺 Quick Navigation
+- [📋 Prerequisites](#-prerequisites)
+- [🚀 Quick Start](#-quick-start)
+- [✔️ Verifying Your Setup](#️-verifying-your-setup)
+- [⚙️ Version Management](#️-version-management)
+- [🐳 Container Management (Podman)](#-container-management-podman)
+- [🛠 Installed Tools & Applications](#-installed-tools--applications)
+- [🔄 Maintenance](#-maintenance)
+- [🩺 Troubleshooting](#-troubleshooting)
+
 ---
 
 ## 📋 Prerequisites

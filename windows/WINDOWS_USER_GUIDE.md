@@ -2,6 +2,15 @@
 
 This guide covers prerequisites, setup, version management, and maintenance for your AI development environment on Windows (GUI) and WSL 2 (Ubuntu).
 
+## 🗺 Quick Navigation
+- [📋 Prerequisites](#-prerequisites)
+- [🚀 Quick Start](#-quick-start)
+- [✔️ Verifying Your Setup](#️-verifying-your-setup)
+- [⚙️ Version Management (WSL 2)](#️-version-management-wsl-2)
+- [🐳 Container Management](#-container-management)
+- [🛠 Maintenance](#-maintenance)
+- [🩺 Troubleshooting](#-troubleshooting)
+
 ---
 
 ## 📋 Prerequisites
