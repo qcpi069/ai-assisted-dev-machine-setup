@@ -1,0 +1,115 @@
+# AI Agent Dev Machine Setup
+
+A comprehensive, multi-platform workspace designed to automate the setup and management of an AI-optimized development environment. This project streamlines the installation of open-source tools, local AI frameworks, and development runtimes across macOS, Linux, and Windows (WSL 2).
+
+## 🤖 Purpose & The Agent
+This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenClaw, CrewAI, and Cline) and **Local LLMs** (via Ollama and LM Studio).
+
+### Why use this?
+- **Standardization:** Ensure your development environment is consistent across different machines and OSs.
+- **Local-First AI:** Optimized for offline-first AI workflows, reducing dependency on external APIs.
+- **Clean & OSS:** Focuses strictly on Free/Open Source Software (OSS) to keep your machine lean and transparent.
+- **Automation:** Provides "one-command" setup, update, and cleanup scripts for all platforms.
+
+---
+
+## 📁 Project Structure
+
+- **`/macos`**: Scripts and guide for macOS (Homebrew + Zsh).
+- **`/linux`**: Scripts and guide for Linux (optimized for Ubuntu/Debian using Homebrew + Apt/Snap).
+- **`/windows`**: PowerShell scripts for Windows (Chocolatey) and Bash scripts for WSL 2 (Ubuntu).
+
+---
+
+## 🚀 Getting Started
+
+Refer to the platform-specific instructions below or the `USER_GUIDE.md` within each folder.
+
+### 🍎 macOS
+```bash
+./macos/macos_setup.sh
+```
+*Requires Homebrew and Zsh.*
+
+### 🐧 Linux
+```bash
+./linux/linux_setup.sh
+```
+*Optimized for Ubuntu/Debian. Uses Homebrew for CLI tools and Apt/Snap for system apps.*
+
+### 🪟 Windows & WSL 2
+1. **PowerShell (Admin):**
+   ```powershell
+   powershell ./windows/windows_setup.ps1
+   ```
+2. **WSL 2 (Ubuntu):**
+   ```bash
+   ./windows/wsl_setup.sh
+   ```
+
+---
+
+## 🛠 Features & Included Tools
+
+### 🧠 AI & LLM Tools
+- **Ollama:** Run LLMs locally (Llama 3, Mistral, etc.).
+- **AnythingLLM:** Private "chat-with-your-files" interface.
+- **Local Image Gen:** Tools like DiffusionBee and Upscayl.
+
+### 🤖 Agent Frameworks
+- **OpenClaw:** Personal AI assistant.
+- **CrewAI:** Orchestration for multi-agent systems.
+- **Cline & Cursor:** AI-powered coding and autonomous agents within your editor.
+
+### 💻 Development Runtimes
+- **Node.js:** Managed via NVM (v20/v22).
+- **Java:** Managed via SDKMAN (v17/v21).
+- **Python:** Managed via Pyenv (v3.12+).
+- **Containers:** Podman (aliased to `docker`) for daemonless container management.
+
+### 🧰 Power Tools
+- **GitHub Copilot CLI:** AI assistance in the terminal via `gh copilot`.
+- **Bruno:** Open-source API testing (Postman alternative).
+- **Shell:** Zsh with Oh My Zsh.
+- **Editors:** VS Code and Cursor.
+
+---
+
+## ⚙️ Version Management
+
+This setup uses standard version managers to allow switching between different runtime versions.
+
+### 🌐 Node.js (NVM)
+- **Install latest LTS:** `nvm install --lts`
+- **Switch version:** `nvm use 20` or `nvm use 22`
+- **Set default:** `nvm alias default 20`
+- **Check installed:** `nvm ls`
+
+### ☕ Java (SDKMAN)
+- **Install latest LTS (e.g., v21):** `sdk install java 21.0.2-tem`
+- **Switch version:** `sdk use java 21.0.2-tem` or `sdk use java 17.0.10-tem`
+- **Set default:** `sdk default java 21.0.2-tem`
+- **Check installed:** `sdk list java` (look for the 'installed' tag)
+
+### 🐍 Python (Pyenv)
+- **Install latest version:** `pyenv install 3.13:latest`
+- **Switch version:** `pyenv local 3.12.x` or `pyenv global 3.13.x`
+- **Check installed:** `pyenv versions`
+
+### 🐹 Go (Goenv)
+- **Install specific version:** `goenv install 1.26.0`
+- **Switch version:** `goenv local 1.25.0` or `goenv global 1.26.0`
+- **Check installed:** `goenv versions`
+
+---
+
+## 📏 Standards & Maintenance
+
+- **Update All:** Each platform has an `update_all.sh` script to refresh all tools and models.
+- **Cleanup:** Reclaim disk space using the `cleanup.sh` scripts.
+- **OSS Focus:** We prioritize open-source alternatives to keep your stack free and customizable.
+
+---
+
+## 📄 License
+This project is open-source. See the individual scripts for specific tool licenses.
