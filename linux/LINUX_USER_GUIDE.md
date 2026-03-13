@@ -1,8 +1,9 @@
 # Linux Setup User Guide
 
-This document explains how to manage your development environment and AI tools on Linux (optimized for Ubuntu/Debian).
+This document explains how to set up and manage your development environment and AI tools on Linux (optimized for Ubuntu/Debian).
 
 ## 🚀 Quick Navigation
+- [0. Prerequisites](#0-prerequisites)
 - [1. Shell & Terminals](#1-shell--terminals)
 - [2. Managing Versions (The Switching Guide)](#2-managing-versions-the-switching-guide)
 - [3. Docker & Containers (Podman)](#3-docker--containers-podman)
@@ -16,6 +17,52 @@ This document explains how to manage your development environment and AI tools o
 - [11. Keeping Everything Up to Date](#11-keeping-everything-up-to-date)
 - [12. Post-Installation Cleanup](#12-post-installation-cleanup)
 - [13. Installed Tools & Applications](#13-installed-tools--applications)
+- [14. Troubleshooting](#14-troubleshooting)
+
+---
+
+## 0. Prerequisites
+
+Before running the setup script, ensure the following:
+
+1. **Ubuntu 22.04+ or Debian 11+** (other distros may work but are untested)
+2. **curl and git:**
+   ```bash
+   sudo apt update && sudo apt install -y curl git
+   ```
+3. **Homebrew** (used for CLI tool management):
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+   After install, add Homebrew to your PATH:
+   ```bash
+   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+4. Make the setup script executable:
+   ```bash
+   chmod +x ./linux/linux_setup.sh
+   ```
+
+Then run:
+```bash
+./linux/linux_setup.sh
+```
+
+---
+
+## ✔️ Verifying Your Setup
+
+After the script completes, confirm key tools are working:
+```bash
+node -v            # Node.js — expect v20.x or v22.x
+java -version      # Java — expect 21.x or 17.x
+python3 --version  # Python — expect 3.12+
+ollama --version   # Ollama local LLM runner
+docker --version   # Podman aliased as docker
+gh --version       # GitHub CLI
+code --version     # VS Code
+```
 
 ---
 
@@ -52,8 +99,16 @@ This document explains how to manage your development environment and AI tools o
 - **Update Models:** `ollama pull llama3`
 
 ## 7. Local AI Image Generation
-- **DiffusionBee:** Usually via AppImage or Flatpak on Linux.
-- **Upscayl:** Available via Snap or Flatpak.
+- **Upscayl** (image upscaler): Install via Snap:
+  ```bash
+  sudo snap install upscayl
+  ```
+- **DiffusionBee alternative on Linux — InvokeAI:**
+  ```bash
+  pip install invokeai
+  invokeai-web  # launches a local web UI
+  ```
+  > *Note:* DiffusionBee is macOS-only. InvokeAI is the recommended open-source alternative for local image generation on Linux.
 
 ## 8. Web Development (React & Angular)
 - **React:** `pnpm create vite my-app --template react-ts`
@@ -80,6 +135,57 @@ To reclaim disk space:
 ```
 
 ## 13. Installed Tools & Applications
-- **Package Manager:** Homebrew (CLI), Apt (System).
-- **CLIs:** Git, GH CLI, NVM, SDKMAN, Pyenv.
-- **Apps:** VS Code, Cursor, Podman, Ollama, Bruno, Strawberry, Steam.
+
+| Category | Tool |
+|---|---|
+| Package Managers | Homebrew (CLI), Apt (system packages) |
+| Shell | Zsh + Oh My Zsh |
+| CLIs | Git, GitHub CLI (`gh`), NVM, SDKMAN, Pyenv, Goenv |
+| Editors | VS Code, Cursor |
+| Containers | Podman (aliased as `docker`), Podman Compose |
+| Local AI | Ollama, AnythingLLM |
+| API Testing | Bruno |
+| Agent Frameworks | OpenClaw (`~/openclaw`), CrewAI, Cline |
+| Media | Strawberry music player, Steam |
+
+---
+
+## 14. Troubleshooting
+
+**`permission denied` when running the script**
+```bash
+chmod +x ./linux/linux_setup.sh
+```
+
+**`brew: command not found` after installing Homebrew**
+Add Homebrew to your PATH:
+```bash
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**`nvm: command not found` in a new terminal**
+Add this to your `~/.bashrc` or `~/.zshrc`:
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+Then run `source ~/.bashrc`.
+
+**`sdk: command not found` after SDKMAN install**
+```bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+```
+
+**Cursor AppImage won't launch**
+Make it executable first:
+```bash
+chmod +x cursor-*.AppImage
+./cursor-*.AppImage --no-sandbox
+```
+
+**Ollama models are slow**
+Ollama runs best with 16GB+ RAM for larger models. Try a smaller model:
+```bash
+ollama pull llama3:8b
+```

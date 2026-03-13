@@ -21,23 +21,48 @@ This repository is built for **AI-native development**. It doesn't just install 
 
 ---
 
-## 🚀 Getting Started
+## ✅ Prerequisites
 
-Refer to the platform-specific instructions below or the `USER_GUIDE.md` within each folder.
+Before running any setup script, make sure your machine meets the following requirements.
 
 ### 🍎 macOS
+- macOS 12 (Monterey) or later
+- **Xcode Command Line Tools:** `xcode-select --install`
+- **Homebrew:** [brew.sh](https://brew.sh) — `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+- **Zsh** (default shell on macOS 10.15+): verify with `echo $SHELL`
+
+### 🐧 Linux
+- Ubuntu 22.04+ or Debian 11+ (other distros may work but are untested)
+- `curl` and `git` installed: `sudo apt update && sudo apt install -y curl git`
+- **Homebrew:** [brew.sh](https://brew.sh) — same install command as macOS
+
+### 🪟 Windows & WSL 2
+- Windows 10 (version 2004+) or Windows 11
+- **WSL 2 enabled** — see the [Windows User Guide](./windows/WINDOWS_USER_GUIDE.md) for step-by-step instructions
+- **Ubuntu** installed from the Microsoft Store (recommended: Ubuntu 22.04 LTS)
+- Admin PowerShell access for the Windows setup script
+
+---
+
+## 🚀 Getting Started
+
+Refer to the platform-specific instructions below or the detailed user guide within each folder.
+
+### 🍎 macOS
+Full guide: [`macos/MACOS_USER_GUIDE.md`](./macos/MACOS_USER_GUIDE.md)
 ```bash
 ./macos/macos_setup.sh
 ```
-*Requires Homebrew and Zsh.*
 
 ### 🐧 Linux
+Full guide: [`linux/LINUX_USER_GUIDE.md`](./linux/LINUX_USER_GUIDE.md)
 ```bash
 ./linux/linux_setup.sh
 ```
 *Optimized for Ubuntu/Debian. Uses Homebrew for CLI tools and Apt/Snap for system apps.*
 
 ### 🪟 Windows & WSL 2
+Full guide: [`windows/WINDOWS_USER_GUIDE.md`](./windows/WINDOWS_USER_GUIDE.md)
 1. **PowerShell (Admin):**
    ```powershell
    powershell ./windows/windows_setup.ps1
@@ -46,6 +71,17 @@ Refer to the platform-specific instructions below or the `USER_GUIDE.md` within 
    ```bash
    ./windows/wsl_setup.sh
    ```
+
+### ✔️ Verifying Your Setup
+After running the script for your platform, confirm the key tools are installed:
+```bash
+node -v          # Node.js (via NVM)
+java -version    # Java (via SDKMAN)
+python3 --version  # Python (via Pyenv)
+ollama --version # Ollama (local LLM runner)
+docker --version # Podman (aliased as docker)
+gh --version     # GitHub CLI
+```
 
 ---
 
