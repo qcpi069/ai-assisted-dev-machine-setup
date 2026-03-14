@@ -328,6 +328,14 @@ setup_applications() {
         log_warning "⚠ Could not install Bruno via snap (may already be installed)"
     fi
     
+    # Antigravity IDE via Snap
+    log_info "Installing Antigravity IDE..."
+    if sudo snap install antigravity --classic 2>/dev/null; then
+        log_success "✓ Antigravity IDE installed successfully"
+    else
+        log_warning "⚠ Could not install Antigravity IDE via snap (may already be installed)"
+    fi
+    
     # Steam and Strawberry
     log_info "Installing Steam and Strawberry..."
     if sudo apt install -y steam strawberry 2>/dev/null; then
@@ -423,7 +431,7 @@ echo -e "\033[0;36mThis script will set up your development environment with:\03
 echo -e "  • \033[0;32mSystem Updates\033[0m: Base dependencies and package updates"
 echo -e "  • \033[0;32mDevelopment Runtimes\033[0m: Node.js, Java, Python, Go"
 echo -e "  • \033[0;32mAI Tools\033[0m: Ollama, AnythingLLM, CrewAI"
-echo -e "  • \033[0;32mEditors\033[0m: VS Code, Cursor"
+echo -e "  • \033[0;32mEditors\033[0m: VS Code, Cursor, Antigravity"
 echo -e "  • \033[0;32mCLI Tools\033[0m: GitHub CLI, jq, fzf, ripgrep"
 echo -e "  • \033[0;32mApplications\033[0m: Various dev tools and utilities"
 echo ""

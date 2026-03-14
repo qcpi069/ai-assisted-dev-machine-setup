@@ -107,7 +107,7 @@ This setup uses **Podman** — a daemonless Docker-compatible container engine. 
 | Package Manager | Homebrew |
 | Shell | Zsh + Oh My Zsh |
 | CLIs | Git, GitHub CLI (`gh`), NVM, SDKMAN, Pyenv, Goenv |
-| Editors | VS Code, Cursor |
+| Editors | VS Code, Cursor, Antigravity |
 | Containers | Podman (aliased as `docker`), Podman Compose |
 | Local AI | Ollama, AnythingLLM |
 | API Testing | Bruno |

@@ -95,6 +95,14 @@ code --version     # VS Code
 - **Cursor:** AI-powered editor (Fork of VS Code).
     - *Note:* Download the AppImage for Cursor manually if the setup didn't include it.
 
+## 5b. Antigravity IDE (Linux)
+Antigravity is installed via Snap:
+```bash
+sudo snap install antigravity --classic
+```
+- **Launch:** `antigravity` or from Applications menu
+- **Features:** AI-powered IDE with autonomous coding capabilities
+
 ## 6. AI & LLM Tools (Ollama)
 - **Update Binary:** `curl -fsSL https://ollama.com/install.sh | sh`
 - **Update Models:** `ollama pull llama3`
@@ -142,7 +150,7 @@ To reclaim disk space:
 | Package Managers | Homebrew (CLI), Apt (system packages) |
 | Shell | Zsh + Oh My Zsh |
 | CLIs | Git, GitHub CLI (`gh`), NVM, SDKMAN, Pyenv, Goenv |
-| Editors | VS Code, Cursor |
+| Editors | VS Code, Cursor, Antigravity |
 | Containers | Podman (aliased as `docker`), Podman Compose |
 | Local AI | Ollama, AnythingLLM |
 | API Testing | Bruno |

@@ -79,6 +79,7 @@ gh --version       # GitHub CLI
 ```powershell
 choco --version    # Chocolatey package manager
 code --version     # VS Code
+antigravity --version  # Antigravity IDE (if installed)
 ```
 
 ---
@@ -117,6 +118,18 @@ These tools are available within your WSL 2 Ubuntu environment.
 
 - **Update Windows apps:** `choco upgrade all` (Admin PowerShell)
 - **Update WSL Ubuntu packages:** `sudo apt update && sudo apt upgrade`
+
+## 📝 Antigravity IDE (Windows)
+
+Antigravity is installed via Chocolatey during the Windows setup script.
+
+- **Launch:** `antigravity` from Start Menu or run command
+- **Features:** AI-powered IDE with autonomous coding capabilities
+
+To reinstall or repair:
+```powershell
+choco install antigravity -y
+```
 
 ---
 

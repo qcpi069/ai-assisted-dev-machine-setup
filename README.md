@@ -119,7 +119,7 @@ gh --version     # GitHub CLI
 - **GitHub Copilot CLI:** AI assistance in the terminal via `gh copilot`.
 - **Bruno:** Open-source API testing (Postman alternative).
 - **Shell:** Zsh with Oh My Zsh.
-- **Editors:** VS Code and Cursor.
+- **Editors:** VS Code, Cursor, and Antigravity (AI-powered IDE).
 
 ---
 

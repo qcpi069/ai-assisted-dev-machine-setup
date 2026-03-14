@@ -246,7 +246,7 @@ setup_ai_frameworks() {
 setup_apps() {
     print_section "Applications (Homebrew Casks)"
     
-    local APPS=(visual-studio-code cursor iterm2 podman-desktop ollama lm-studio anythingllm bruno rectangle draw-things diffusionbee upscayl strawberry steam epic-games)
+    local APPS=(visual-studio-code cursor antigravity iterm2 podman-desktop ollama lm-studio anythingllm bruno rectangle draw-things diffusionbee upscayl strawberry steam epic-games)
     
     log_info "Installing ${#APPS[@]} applications..."
     
@@ -376,7 +376,7 @@ echo ""
 echo -e "\033[0;36mThis script will set up your development environment with:\033[0m"
 echo -e "  • \033[0;32mDevelopment Runtimes\033[0m: Node.js, Java, Python, Go"
 echo -e "  • \033[0;32mAI Tools\033[0m: Ollama, AnythingLLM, CrewAI"
-echo -e "  • \033[0;32mEditors\033[0m: VS Code, Cursor"
+echo -e "  • \033[0;32mEditors\033[0m: VS Code, Cursor, Antigravity"
 echo -e "  • \033[0;32mCLI Tools\033[0m: GitHub CLI, jq, fzf, ripgrep"
 echo -e "  • \033[0;32mApplications\033[0m: Various dev tools and utilities"
 echo ""
