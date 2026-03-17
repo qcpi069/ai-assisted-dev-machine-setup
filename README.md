@@ -15,7 +15,7 @@ A comprehensive, multi-platform workspace designed to automate the setup and man
 ---
 
 ## 🤖 Purpose & The Agent
-This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenClaw, CrewAI, and Cline) and **Local LLMs** (via Ollama and LM Studio).
+This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenClaw, LangChain, LangGraph, and Cline) and **Local LLMs** (via Ollama and LM Studio).
 
 ### Why use this?
 - **Standardization:** Ensure your development environment is consistent across different machines and OSs.
@@ -106,7 +106,7 @@ gh --version     # GitHub CLI
 
 ### 🤖 Agent Frameworks
 - **OpenClaw:** Personal AI assistant.
-- **CrewAI:** Orchestration for multi-agent systems.
+- **LangChain & LangGraph:** Build and orchestrate AI agent pipelines.
 - **Cline & Cursor:** AI-powered coding and autonomous agents within your editor.
 
 ### 💻 Development Runtimes

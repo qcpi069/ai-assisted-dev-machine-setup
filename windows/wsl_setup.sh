@@ -260,14 +260,40 @@ setup_runtimes() {
 setup_ai_frameworks() {
     print_section "AI Agent Frameworks"
     
-    log_info "Installing AI Agent Frameworks (CrewAI, LangChain, etc.)..."
-    
-    if pip3 install --upgrade crewai chromadb langchain langgraph 2>/dev/null; then
-        log_success "✓ AI Agent Frameworks installed successfully"
-    elif pip install --upgrade crewai chromadb langchain langgraph 2>/dev/null; then
-        log_success "✓ AI Agent Frameworks installed successfully"
+    log_info "Installing AI Agent Frameworks (LangChain, etc.)..."
+
+    # Use a dedicated virtualenv to avoid polluting system site-packages
+    local VENV_DIR="$HOME/.ai-agent-venv"
+    local PY=""
+    if command -v python3 &> /dev/null; then PY=python3
+    elif command -v python &> /dev/null; then PY=python
+    fi
+
+    if [ -n "$PY" ]; then
+        # Wipe stale venv if it contains old langchain-core (<0.3) which conflicts with packaging>=24
+        if [ -d "$VENV_DIR" ]; then
+            OLD_LC=$("$VENV_DIR/bin/pip" show langchain-core 2>/dev/null | awk '/^Version:/{print $2}' || true)
+            if [ -n "$OLD_LC" ] && [[ "$OLD_LC" == 0.1.* || "$OLD_LC" == 0.2.* ]]; then
+                log_info "Stale venv detected (langchain-core $OLD_LC). Recreating..."
+                rm -rf "$VENV_DIR"
+            fi
+        fi
+
+        if [ ! -d "$VENV_DIR" ]; then
+            log_info "Creating virtualenv at $VENV_DIR..."
+            "$PY" -m venv "$VENV_DIR" || { log_warning "⚠ Could not create venv"; return 1; }
+        fi
+
+        local VENV_PY="$VENV_DIR/bin/python"
+        "$VENV_PY" -m pip install --upgrade pip || true
+        if "$VENV_PY" -m pip install --upgrade --upgrade-strategy only-if-needed --prefer-binary \
+            chromadb langchain langgraph 2>/dev/null; then
+            log_success "✓ AI Agent Frameworks installed successfully"
+        else
+            log_warning "⚠ Could not install AI Agent Frameworks (check Python/pip)"
+        fi
     else
-        log_warning "⚠ Could not install AI Agent Frameworks (check Python/pip)"
+        log_warning "⚠ Python not found; skipping AI Agent Frameworks"
     fi
     
     # OpenClaw
@@ -386,7 +412,7 @@ echo ""
 echo -e "\033[0;36mThis script will set up your development environment with:\033[0m"
 echo -e "  • \033[0;32mSystem Updates\033[0m: Base dependencies and package updates"
 echo -e "  • \033[0;32mDevelopment Runtimes\033[0m: Node.js, Java, Python, Go"
-echo -e "  • \033[0;32mAI Tools\033[0m: Ollama, AnythingLLM, CrewAI"
+echo -e "  • \033[0;32mAI Tools\033[0m: Ollama, AnythingLLM, LangChain, LangGraph"
 echo -e "  • \033[0;32mEditors\033[0m: VS Code, Cursor"
 echo -e "  • \033[0;32mCLI Tools\033[0m: GitHub CLI, jq, fzf, ripgrep"
 echo -e "  • \033[0;32mContainers\033[0m: Podman (Docker-compatible)"

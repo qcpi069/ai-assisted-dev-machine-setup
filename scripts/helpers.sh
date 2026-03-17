@@ -424,17 +424,17 @@ install_goenv_version() {
 
 # Install AI Agent Frameworks via pip
 install_ai_frameworks() {
-    log_info "Installing AI Agent Frameworks (CrewAI, LangChain, etc.)..."
+    log_info "Installing AI Agent Frameworks (LangChain, LangGraph, etc.)..."
     
     if [ "$DRY_RUN" = true ]; then
         log_info "[DRY-RUN] Would install AI Agent Frameworks"
         return 0
     fi
     
-    if pip3 install --upgrade crewai chromadb langchain langgraph 2>/dev/null; then
+    if pip3 install --upgrade chromadb langchain langgraph 2>/dev/null; then
         log_success "✓ AI Agent Frameworks installed successfully"
         return 0
-    elif pip install --upgrade crewai chromadb langchain langgraph 2>/dev/null; then
+    elif pip install --upgrade chromadb langchain langgraph 2>/dev/null; then
         log_success "✓ AI Agent Frameworks installed successfully"
         return 0
     else

@@ -22,14 +22,57 @@ fi
 
 # 4. Java (SDKMAN)
 echo "☕ Updating SDKMAN..."
+# Avoid sourcing sdkman init script (can break in non-bash shells).
 if [ -d "$HOME/.sdkman" ]; then
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
-    sdk selfupdate
+    if command -v sdk &> /dev/null; then
+        sdk selfupdate || echo "⚠️ sdk selfupdate failed."
+    else
+        echo "⚠️ 'sdk' not found in PATH; skipping SDKMAN update to avoid shell incompatibility."
+    fi
 fi
 
 # 5. Python & AI Agent Frameworks
 echo "🐍 Updating AI Agent Frameworks (Pip)..."
-pip3 install --upgrade crewai chromadb langchain langgraph || pip install --upgrade crewai chromadb langchain langgraph
+# Use `python -m pip` for a consistent environment, upgrade pip tools first,
+# and prefer binary wheels to avoid source builds that trigger large downloads.
+if command -v python3 &> /dev/null; then
+    PY=python3
+elif command -v python &> /dev/null; then
+    PY=python
+else
+    echo "⚠️ Python not found; skipping pip package upgrades."
+    PY=""
+fi
+
+if [ -n "$PY" ]; then
+    VENV_DIR="$HOME/.ai-agent-venv"
+
+    # Wipe stale venv if it contains old langchain-core (<0.3) which conflicts with packaging>=24
+    if [ -d "$VENV_DIR" ]; then
+        OLD_LC=$("$VENV_DIR/bin/pip" show langchain-core 2>/dev/null | awk '/^Version:/{print $2}' || true)
+        if [ -n "$OLD_LC" ] && [[ "$OLD_LC" == 0.1.* || "$OLD_LC" == 0.2.* ]]; then
+            echo "🗑️  Stale venv detected (langchain-core $OLD_LC). Recreating..."
+            rm -rf "$VENV_DIR"
+        fi
+    fi
+
+    if [ ! -d "$VENV_DIR" ]; then
+        echo "🐍 Creating virtualenv at $VENV_DIR..."
+        "$PY" -m venv "$VENV_DIR" || { echo "⚠️ Failed to create venv; skipping pip step."; VENV_DIR=""; }
+    fi
+
+    if [ -n "$VENV_DIR" ]; then
+        VENV_PY="$VENV_DIR/bin/python"
+
+        echo "🔧 Upgrading pip in venv..."
+        "$VENV_PY" -m pip install --upgrade pip || true
+
+        echo "📦 Installing/Upgrading AI packages (binary wheels preferred)..."
+        "$VENV_PY" -m pip install --upgrade --upgrade-strategy only-if-needed --prefer-binary \
+            chromadb langchain langgraph || \
+        echo "⚠️ Pip install failed; try: $VENV_DIR/bin/pip install chromadb langchain langgraph"
+    fi
+fi
 
 # 6. Go Tools
 echo "🐹 Updating Go Tools..."

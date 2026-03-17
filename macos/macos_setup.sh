@@ -209,11 +209,11 @@ setup_runtimes() {
 setup_ai_frameworks() {
     print_section "AI Agent Frameworks"
     
-    log_info "Installing AI Agent Frameworks (CrewAI, LangChain, etc.)..."
+    log_info "Installing AI Agent Frameworks (LangChain, etc.)..."
     
-    if pip3 install --upgrade crewai chromadb langchain langgraph 2>/dev/null; then
+    if pip3 install --upgrade chromadb langchain langgraph 2>/dev/null; then
         log_success "✓ AI Agent Frameworks installed successfully"
-    elif pip install --upgrade crewai chromadb langchain langgraph 2>/dev/null; then
+    elif pip install --upgrade chromadb langchain langgraph 2>/dev/null; then
         log_success "✓ AI Agent Frameworks installed successfully"
     else
         log_warning "⚠ Could not install AI Agent Frameworks (check Python/pip)"
@@ -375,7 +375,7 @@ print_header "AI Agent Dev Machine Setup - macOS"
 echo ""
 echo -e "\033[0;36mThis script will set up your development environment with:\033[0m"
 echo -e "  • \033[0;32mDevelopment Runtimes\033[0m: Node.js, Java, Python, Go"
-echo -e "  • \033[0;32mAI Tools\033[0m: Ollama, AnythingLLM, CrewAI"
+echo -e "  • \033[0;32mAI Tools\033[0m: Ollama, AnythingLLM, LangChain, LangGraph"
 echo -e "  • \033[0;32mEditors\033[0m: VS Code, Cursor, Antigravity"
 echo -e "  • \033[0;32mCLI Tools\033[0m: GitHub CLI, jq, fzf, ripgrep"
 echo -e "  • \033[0;32mApplications\033[0m: Various dev tools and utilities"

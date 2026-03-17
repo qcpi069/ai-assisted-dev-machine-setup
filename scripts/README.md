@@ -54,7 +54,7 @@ This directory contains shared helper functions for the AI Agent Dev Machine Set
 ### AI Frameworks
 | Function | Description |
 |----------|-------------|
-| `install_ai_frameworks` | Install CrewAI, LangChain, LangGraph, ChromaDB |
+| `install_ai_frameworks` | Install LangChain, LangGraph, ChromaDB |
 | `clone_openclaw` | Clone and set up OpenClaw repository |
 
 ### CLI Tools

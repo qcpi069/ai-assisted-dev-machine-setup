@@ -111,7 +111,7 @@ This setup uses **Podman** — a daemonless Docker-compatible container engine. 
 | Containers | Podman (aliased as `docker`), Podman Compose |
 | Local AI | Ollama, AnythingLLM |
 | API Testing | Bruno |
-| Agent Frameworks | OpenClaw, CrewAI, Cline |
+| Agent Frameworks | OpenClaw, LangChain, LangGraph, Cline |
 
 ---
 

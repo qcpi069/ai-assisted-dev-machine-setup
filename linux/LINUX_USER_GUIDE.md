@@ -88,7 +88,6 @@ code --version     # VS Code
 
 ## 4. AI Agent Frameworks
 - **OpenClaw:** Personal assistant (lives in `~/openclaw`).
-- **CrewAI:** Orchestrate groups of specialized agents.
 
 ## 5. In-Editor Tools (VS Code Power-Ups & Cursor)
 - **Cline:** Autonomous AI Agent.
@@ -154,7 +153,7 @@ To reclaim disk space:
 | Containers | Podman (aliased as `docker`), Podman Compose |
 | Local AI | Ollama, AnythingLLM |
 | API Testing | Bruno |
-| Agent Frameworks | OpenClaw (`~/openclaw`), CrewAI, Cline |
+| Agent Frameworks | OpenClaw (`~/openclaw`), LangChain, LangGraph, Cline |
 | Media | Strawberry music player, Steam |
 
 ---
