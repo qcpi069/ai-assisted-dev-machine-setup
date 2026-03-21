@@ -1,5 +1,8 @@
 # Linux Setup User Guide
 
+> [!IMPORTANT]
+> **Intended for Fresh Installs:** These setup, update, and cleanup scripts are strictly designed for **fresh installations**. They follow an opinionated configuration and do not handle conflicts with existing packages (Snap, Apt, Flatpak), applications, or environments managed by other tools or manual installations outside the scope of this project. Use with caution on machines with pre-existing development setups.
+
 This document explains how to set up and manage your development environment and AI tools on Linux (optimized for Ubuntu/Debian).
 
 ## 🚀 Quick Navigation
@@ -59,7 +62,8 @@ After the script completes, confirm key tools are working:
 node -v            # Node.js — expect v20.x or v22.x
 java -version      # Java — expect 21.x or 17.x
 python3 --version  # Python — expect 3.12+
-ollama --version   # Ollama local LLM runner
+# LM Studio: Preferred LLM host (Manual download required for Linux)
+ollama --version   # Ollama (secondary LLM runner)
 docker --version   # Podman aliased as docker
 gh --version       # GitHub CLI
 code --version     # VS Code
@@ -102,7 +106,14 @@ sudo snap install antigravity --classic
 - **Launch:** `antigravity` or from Applications menu
 - **Features:** AI-powered IDE with autonomous coding capabilities
 
-## 6. AI & LLM Tools (Ollama)
+## 6. AI & LLM Tools (LM Studio & Ollama)
+
+### LM Studio (Preferred)
+- **Download:** [lmstudio.ai](https://lmstudio.ai) (Download the AppImage for Linux).
+- **Setup:** Make the AppImage executable and launch it.
+- **Features:** GUI for model discovery, loading, and an OpenAI-compatible local server.
+
+### Ollama (Secondary)
 - **Update Binary:** `curl -fsSL https://ollama.com/install.sh | sh`
 - **Update Models:** `ollama pull llama3`
 
@@ -151,7 +162,7 @@ To reclaim disk space:
 | CLIs | Git, GitHub CLI (`gh`), NVM, SDKMAN, Pyenv, Goenv |
 | Editors | VS Code, Cursor, Antigravity |
 | Containers | Podman (aliased as `docker`), Podman Compose |
-| Local AI | Ollama, AnythingLLM |
+| Local AI | LM Studio (Preferred), Ollama, AnythingLLM |
 | API Testing | Bruno |
 | Agent Frameworks | OpenClaw (`~/openclaw`), LangChain, LangGraph, Cline |
 | Media | Strawberry music player, Steam |

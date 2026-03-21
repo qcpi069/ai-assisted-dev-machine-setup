@@ -2,6 +2,9 @@
 
 A comprehensive, multi-platform workspace designed to automate the setup and management of an AI-optimized development environment. This project streamlines the installation of open-source tools, local AI frameworks, and development runtimes across macOS, Linux, and Windows (WSL 2).
 
+> [!IMPORTANT]
+> **Intended for Fresh Installs:** These setup, update, and cleanup scripts are strictly designed for **fresh installations**. They follow an opinionated configuration and do not handle conflicts with existing packages, applications, or environments managed by other tools or manual installations outside the scope of this project. Use with caution on machines with pre-existing development setups.
+
 ## 🗺 Quick Navigation
 - [🤖 Purpose & The Agent](#-purpose--the-agent)
 - [📁 Project Structure](#-project-structure)
@@ -15,7 +18,7 @@ A comprehensive, multi-platform workspace designed to automate the setup and man
 ---
 
 ## 🤖 Purpose & The Agent
-This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenClaw, LangChain, LangGraph, and Cline) and **Local LLMs** (via Ollama and LM Studio).
+This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenClaw, LangChain, LangGraph, and Cline) and **Local LLMs** (via LM Studio and Ollama).
 
 ### Why use this?
 - **Standardization:** Ensure your development environment is consistent across different machines and OSs.
@@ -90,7 +93,8 @@ After running the script for your platform, confirm the key tools are installed:
 node -v          # Node.js (via NVM)
 java -version    # Java (via SDKMAN)
 python3 --version  # Python (via Pyenv)
-ollama --version # Ollama (local LLM runner)
+# LM Studio: Preferred LLM host (Check Applications/Start Menu)
+ollama --version # Ollama (secondary LLM runner)
 docker --version # Podman (aliased as docker)
 gh --version     # GitHub CLI
 ```
@@ -100,7 +104,8 @@ gh --version     # GitHub CLI
 ## 🛠 Features & Included Tools
 
 ### 🧠 AI & LLM Tools
-- **Ollama:** Run LLMs locally (Llama 3, Mistral, etc.).
+- **LM Studio:** Preferred local LLM host with GUI and OpenAI-compatible API.
+- **Ollama:** Secondary CLI-based LLM runner.
 - **AnythingLLM:** Private "chat-with-your-files" interface.
 - **Local Image Gen:** Tools like DiffusionBee and Upscayl.
 

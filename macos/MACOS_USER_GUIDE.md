@@ -1,5 +1,8 @@
 # macOS Setup User Guide
 
+> [!IMPORTANT]
+> **Intended for Fresh Installs:** These setup, update, and cleanup scripts are strictly designed for **fresh installations**. They follow an opinionated configuration and do not handle conflicts with existing packages, applications, or environments managed by other tools (e.g., MacPorts, Fink) or manual installations outside the scope of this project. Use with caution on machines with pre-existing development setups.
+
 This guide covers prerequisites, setup, version management, and maintenance for your macOS AI development environment.
 
 ## 🗺 Quick Navigation
@@ -55,8 +58,9 @@ After the script completes, confirm key tools are installed:
 node -v            # Node.js — expect v20.x or v22.x
 java -version      # Java — expect 21.x or 17.x
 python3 --version  # Python — expect 3.12+
-ollama --version   # Ollama local LLM runner
-docker --version   # Podman aliased as docker
+# LM Studio: Preferred LLM host (Check Applications)
+ollama --version   # Ollama (secondary LLM runner)
+podman --version   # Podman CLI
 gh --version       # GitHub CLI
 code --version     # VS Code
 ```
@@ -92,11 +96,22 @@ code --version     # VS Code
 
 ## 🐳 Container Management (Podman)
 
-This setup uses **Podman** — a daemonless Docker-compatible container engine. The `docker` command is aliased to `podman`, so existing Docker workflows work without changes.
+This setup uses **Podman** — a daemonless container engine. On macOS, initialize and start the Podman machine before launching containers:
 
-- **Run a container:** `docker run -d nginx`
-- **List running containers:** `docker ps`
+```bash
+podman machine init   # first run only
+podman machine start
+```
+
+- **Run a container:** `podman run -d nginx`
+- **List running containers:** `podman ps`
 - **Multi-container apps:** use `podman-compose` (works like `docker-compose`)
+
+To build and run OpenClaw in Podman, use:
+
+```bash
+./macos/openclaw_podman.sh
+```
 
 ---
 
@@ -106,10 +121,10 @@ This setup uses **Podman** — a daemonless Docker-compatible container engine. 
 |---|---|
 | Package Manager | Homebrew |
 | Shell | Zsh + Oh My Zsh |
-| CLIs | Git, GitHub CLI (`gh`), NVM, SDKMAN, Pyenv, Goenv |
+| CLIs | Git, GitHub CLI (`gh`), NVM, SDKMAN, Pyenv, Goenv, Podman |
 | Editors | VS Code, Cursor, Antigravity |
-| Containers | Podman (aliased as `docker`), Podman Compose |
-| Local AI | Ollama, AnythingLLM |
+| Containers | Podman, Podman Compose, Podman Desktop |
+| Local AI | LM Studio (Preferred), Ollama, AnythingLLM |
 | API Testing | Bruno |
 | Agent Frameworks | OpenClaw, LangChain, LangGraph, Cline |
 

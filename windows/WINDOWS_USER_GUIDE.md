@@ -1,5 +1,8 @@
 # Windows & WSL 2 Setup User Guide
 
+> [!IMPORTANT]
+> **Intended for Fresh Installs:** These setup, update, and cleanup scripts are strictly designed for **fresh installations**. They follow an opinionated configuration and do not handle conflicts with existing packages (Chocolatey, Winget, Scoop), applications, or environments managed by other tools or manual installations outside the scope of this project. Use with caution on machines with pre-existing development setups.
+
 This guide covers prerequisites, setup, version management, and maintenance for your AI development environment on Windows (GUI) and WSL 2 (Ubuntu).
 
 ## 🗺 Quick Navigation
@@ -16,6 +19,8 @@ This guide covers prerequisites, setup, version management, and maintenance for 
 ## 📋 Prerequisites
 
 ### Step 1 — Enable WSL 2
+
+For the most up-to-date prerequisites and detailed setup instructions, refer to the [Official Microsoft WSL Installation Guide](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 If you haven't set up WSL 2 yet, follow these steps in an **Admin PowerShell**:
 
@@ -70,7 +75,8 @@ wsl --list --verbose
 node -v            # Node.js — expect v20.x or v22.x
 java -version      # Java — expect 21.x or 17.x
 python3 --version  # Python — expect 3.12+
-ollama --version   # Ollama local LLM runner
+# LM Studio: Preferred LLM host (Windows App)
+ollama --version   # Ollama (secondary LLM runner)
 docker --version   # Podman aliased as docker
 gh --version       # GitHub CLI
 ```

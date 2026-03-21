@@ -15,5 +15,5 @@ Refer to the `USER_GUIDE.md` within each folder for platform-specific instructio
 
 ## 📏 Standards
 - **Open Source:** Only include free/OSS tools.
-- **Local AI:** Optimize for offline-first AI workflows (Ollama, LM Studio).
+- **Local AI:** Optimize for offline-first AI workflows (LM Studio, Ollama).
 - **Clean:** Provide automated update and cleanup scripts for all platforms.
