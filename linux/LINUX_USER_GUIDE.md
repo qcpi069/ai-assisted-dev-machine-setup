@@ -138,7 +138,6 @@ sudo snap install antigravity --classic
 - **AnythingLLM:** Private Chat-with-your-files.
 
 ## 10. Recreational & Media Tools
-- **Strawberry:** (Open Source) Music player.
 - **Steam:** Native Linux client available.
 
 ## 11. Keeping Everything Up to Date
@@ -165,7 +164,7 @@ To reclaim disk space:
 | Local AI | LM Studio (Preferred), Ollama, AnythingLLM |
 | API Testing | Bruno |
 | Agent Frameworks | OpenClaw (`~/openclaw`), LangChain, LangGraph, Cline |
-| Media | Strawberry music player, Steam |
+| Media | Steam |
 
 ---
 

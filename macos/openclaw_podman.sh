@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # openclaw_podman.sh - macOS helper script to build and run OpenClaw with Podman
 # and print a starting-point config for LM Studio's OpenAI-compatible API.
 
@@ -199,7 +199,7 @@ get_model_name() {
     log_info "The model name is optional and is only used in the example config shown at the end."
     echo ""
 
-    read -r -p "Preferred LM Studio model (optional): " MODEL_NAME
+    read "MODEL_NAME?Preferred LM Studio model (optional): "
 
     if [ -n "$MODEL_NAME" ]; then
         log_success "✓ Model noted: $MODEL_NAME"
@@ -337,7 +337,7 @@ main() {
         echo -e "  • \033[0;32mPrint an LM Studio config example\033[0m for manual setup"
         echo ""
 
-        read -p "Continue? (y/N) " -n 1 -r
+        read "REPLY?Continue? (y/N) "
         echo
 
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then

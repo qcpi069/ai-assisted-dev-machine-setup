@@ -29,7 +29,7 @@ if (-not (Get-Command choco.exe -ErrorAction SilentlyContinue)) {
     }
 }
 
-$apps = @("microsoft-windows-terminal", "visualstudiocode", "cursor", "antigravity", "ollama", "lm-studio", "anythingllm", "upscayl", "bruno", "strawberry", "steam-client", "epicgameslauncher", "davinci-resolve", "openjdk17", "openjdk21")
+$apps = @("microsoft-windows-terminal", "visualstudiocode", "cursor", "antigravity", "ollama", "lm-studio", "anythingllm", "upscayl", "bruno", "steam-client", "epicgameslauncher", "davinci-resolve", "openjdk17", "openjdk21")
 
 foreach ($app in $apps) {
     if ($DRY_RUN) {

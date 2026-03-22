@@ -53,17 +53,18 @@ From the repo root, run:
 
 ## ✔️ Verifying Your Setup
 
-After the script completes, confirm key tools are installed:
+Confirm key tools are installed:
 ```bash
 node -v            # Node.js — expect v20.x or v22.x
 java -version      # Java — expect 21.x or 17.x
 python3 --version  # Python — expect 3.12+
 # LM Studio: Preferred LLM host (Check Applications)
 ollama --version   # Ollama (secondary LLM runner)
-podman --version   # Podman CLI
+docker --version   # Podman (aliased as docker)
 gh --version       # GitHub CLI
 code --version     # VS Code
 ```
+
 
 ---
 
@@ -92,19 +93,23 @@ code --version     # VS Code
 - **Switch version:** `goenv local 1.22.0` or `goenv global 1.22.0`
 - **Check installed:** `goenv versions`
 
----
-
 ## 🐳 Container Management (Podman)
 
-This setup uses **Podman** — a daemonless container engine. On macOS, initialize and start the Podman machine before launching containers:
+This setup uses **Podman** — a daemonless container engine. On macOS, initialize and start the Podman machine before launching containers.
+
+> [!TIP]
+> **Docker Compatibility:** The setup script adds `alias docker=podman` to your shell configuration (`.zshrc`, `.bashrc`). You can use `docker` commands interchangeably with `podman`.
+
+> [!NOTE]
+> **Virtualization Backends:** Podman 5.x on macOS requires `vfkit` or `krunkit` to run the Apple Hypervisor. These are installed automatically by the setup script.
 
 ```bash
 podman machine init   # first run only
 podman machine start
 ```
 
-- **Run a container:** `podman run -d nginx`
-- **List running containers:** `podman ps`
+- **Run a container:** `docker run -d nginx` (or `podman run...`)
+- **List running containers:** `docker ps`
 - **Multi-container apps:** use `podman-compose` (works like `docker-compose`)
 
 To build and run OpenClaw in Podman, use:
@@ -123,7 +128,7 @@ To build and run OpenClaw in Podman, use:
 | Shell | Zsh + Oh My Zsh |
 | CLIs | Git, GitHub CLI (`gh`), NVM, SDKMAN, Pyenv, Goenv, Podman |
 | Editors | VS Code, Cursor, Antigravity |
-| Containers | Podman, Podman Compose, Podman Desktop |
+| Containers | Podman, Podman Compose, Podman Desktop, **vfkit**, **krunkit** |
 | Local AI | LM Studio (Preferred), Ollama, AnythingLLM |
 | API Testing | Bruno |
 | Agent Frameworks | OpenClaw, LangChain, LangGraph, Cline |

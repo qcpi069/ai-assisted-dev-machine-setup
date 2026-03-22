@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # helpers.sh - Shared helper functions for all setup scripts
 # Usage: source scripts/helpers.sh
 
@@ -189,6 +189,26 @@ install_choco() {
     fi
 }
 
+# Check if a Python version is installed via pyenv
+pyenv_version_installed() {
+    local version="$1"
+    if command -v pyenv &>/dev/null; then
+        pyenv versions --bare | grep -q "^${version}"
+        return $?
+    fi
+    return 1
+}
+
+# Check if a Go version is installed via goenv
+goenv_version_installed() {
+    local version="$1"
+    if command -v goenv &>/dev/null; then
+        goenv versions --bare | grep -q "^${version}"
+        return $?
+    fi
+    return 1
+}
+
 # Install NVM if not present
 install_nvm() {
     local nvm_dir="$HOME/.nvm"
@@ -245,7 +265,7 @@ install_sdkman() {
         return 0
     else
         log_error "✗ Failed to install SDKMAN"
-        return 0  # Don't fail the whole script for SDKMAN
+        return 1
     fi
 }
 

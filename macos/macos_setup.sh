@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/zsh
 # macos_setup.sh - Mac Setup Script (Improved for Junior Developers)
 set -e
 
 # Source the shared helpers
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${(%):-%x}")" && pwd)"
 if [ -f "$SCRIPT_DIR/../scripts/helpers.sh" ]; then
     source "$SCRIPT_DIR/../scripts/helpers.sh"
 else
@@ -25,80 +25,6 @@ for arg in "$@"; do
             ;;
     esac
 done
-
-# ============================================================================
-# HELPER FUNCTIONS (duplicated for standalone use)
-# ============================================================================
-
-log_info() { echo -e "\033[0;34m[INFO]\033[0m $1"; }
-log_success() { echo -e "\033[0;32m[SUCCESS]\033[0m $1"; }
-log_warning() { echo -e "\033[1;33m[WARNING]\033[0m $1"; }
-log_error() { echo -e "\033[0;31m[ERROR]\033[0m $1"; }
-
-print_header() {
-    echo ""
-    echo -e "\033[0;36m╔════════════════════════════════════════════════════════════╗\033[0m"
-    echo -e "\033[0;36m║$(printf '%*s' $((58 - ${#1})) | tr ' ' '=')\033[0m"
-    echo -e "\033[0;36m║  $1\033[0m"
-    echo -e "\033[0;36m╚════════════════════════════════════════════════════════════╝\033[0m"
-    echo ""
-}
-
-print_section() {
-    local section_name="$1"
-    echo ""
-    echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    echo -e "\033[0;34m➡  $section_name\033[0m"
-    echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    echo ""
-}
-
-command_exists() { command -v "$1" &>/dev/null; }
-brew_package_installed() { brew list "$1" &>/dev/null; }
-
-install_formula() {
-    local package="$1"
-    if brew_package_installed "$package"; then
-        log_info "✓ $package is already installed. Skipping."
-        return 0
-    fi
-    log_info "Installing $package..."
-    
-    if [ "$DRY_RUN" = true ]; then
-        log_info "[DRY-RUN] Would install $package"
-        return 0
-    fi
-    
-    if brew install "$package"; then
-        log_success "✓ $package installed successfully"
-        return 0
-    else
-        log_error "✗ Failed to install $package"
-        return 1
-    fi
-}
-
-install_cask() {
-    local package="$1"
-    if brew list --cask "$package" &>/dev/null; then
-        log_info "✓ $package is already installed. Skipping."
-        return 0
-    fi
-    log_info "Installing $package..."
-    
-    if [ "$DRY_RUN" = true ]; then
-        log_info "[DRY-RUN] Would install $package (cask)"
-        return 0
-    fi
-    
-    if brew install --cask "$package"; then
-        log_success "✓ $package installed successfully"
-        return 0
-    else
-        log_error "✗ Failed to install $package (cask)"
-        return 1
-    fi
-}
 
 # ============================================================================
 # MAIN SETUP FUNCTIONS
@@ -131,41 +57,11 @@ setup_shell() {
     print_section "Shell Configuration (Zsh + Oh My Zsh)"
     
     # Install Oh My Zsh
-    if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        if [ "$DRY_RUN" = true ]; then
-            log_info "[DRY-RUN] Would install Oh My Zsh"
-        else
-            log_info "Installing Oh My Zsh..."
-            sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-        fi
-    else
-        log_success "✓ Oh My Zsh is already installed"
-    fi
+    install_ohmyzsh
     
-    # Install zsh-autosuggestions
-    local ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-    if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-        if [ "$DRY_RUN" = true ]; then
-            log_info "[DRY-RUN] Would install zsh-autosuggestions plugin"
-        else
-            log_info "Installing zsh-autosuggestions plugin..."
-            git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-        fi
-    else
-        log_success "✓ zsh-autosuggestions is already installed"
-    fi
-    
-    # Install zsh-syntax-highlighting
-    if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-        if [ "$DRY_RUN" = true ]; then
-            log_info "[DRY-RUN] Would install zsh-syntax-highlighting plugin"
-        else
-            log_info "Installing zsh-syntax-highlighting plugin..."
-            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-        fi
-    else
-        log_success "✓ zsh-syntax-highlighting is already installed"
-    fi
+    # Install plugins
+    install_zsh_autosuggestions
+    install_zsh_syntax_highlighting
 }
 
 setup_runtimes() {
@@ -173,52 +69,26 @@ setup_runtimes() {
     
     # --- Node.js via NVM ---
     log_info "Installing Node.js (via NVM)..."
-    export NVM_DIR="$HOME/.nvm"
-    
-    if [ ! -d "$NVM_DIR" ]; then
+    if install_nvm; then
         if [ "$DRY_RUN" = true ]; then
-            log_info "[DRY-RUN] Would install NVM"
+            log_info "[DRY-RUN] Would install Node.js versions 20 and 22"
         else
-            log_info "Installing NVM..."
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            log_info "Installing Node.js versions..."
+            install_nvm_version 22
+            install_nvm_version 20
         fi
-    else
-        log_success "✓ NVM is already installed"
-    fi
-    
-    if [ "$DRY_RUN" = true ]; then
-        log_info "[DRY-RUN] Would install Node.js versions 20 and 22"
-    else
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        
-        log_info "Installing Node.js versions..."
-        nvm install 22 || log_warning "⚠ Could not install Node.js 22"
-        nvm install 20 || log_warning "⚠ Could not install Node.js 20"
     fi
     
     # --- Java via SDKMAN ---
     log_info "Installing Java (via SDKMAN)..."
-    export SDKMAN_DIR="$HOME/.sdkman"
-    
-    if [ ! -d "$SDKMAN_DIR" ]; then
+    if install_sdkman; then
         if [ "$DRY_RUN" = true ]; then
-            log_info "[DRY-RUN] Would install SDKMAN"
+            log_info "[DRY-RUN] Would install Java versions 17 and 21"
         else
-            log_info "Installing SDKMAN..."
-            curl -s "https://get.sdkman.io" | bash
+            log_info "Installing Java versions..."
+            install_java_version "21.0.2-tem"
+            install_java_version "17.0.10-tem"
         fi
-    else
-        log_success "✓ SDKMAN is already installed"
-    fi
-    
-    if [ "$DRY_RUN" = true ]; then
-        log_info "[DRY-RUN] Would install Java versions 17 and 21"
-    else
-        [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && \. "$SDKMAN_DIR/bin/sdkman-init.sh"
-        
-        log_info "Installing Java versions..."
-        sdk install java 21.0.2-tem || log_warning "⚠ Could not install Java 21"
-        sdk install java 17.0.10-tem || log_warning "⚠ Could not install Java 17"
     fi
     
     # --- Python via Pyenv ---
@@ -237,8 +107,14 @@ setup_runtimes() {
         eval "$(pyenv init -)" 2>/dev/null || true
         
         log_info "Installing Python versions..."
-        pyenv install 3.13:latest || log_warning "⚠ Could not install Python 3.13"
-        pyenv install 3.12:latest || log_warning "⚠ Could not install Python 3.12"
+        for py_ver in "3.13:latest" "3.12:latest"; do
+            local base_ver=${py_ver%:latest}
+            if pyenv_version_installed "$base_ver"; then
+                log_success "✓ Python $base_ver is already installed. Skipping."
+            else
+                pyenv install "$py_ver" || log_warning "⚠ Could not install Python $py_ver"
+            fi
+        done
         
         # Set default Python version
         local latest_313=$(pyenv versions --bare | grep "3.13" | tail -1)
@@ -267,8 +143,13 @@ setup_runtimes() {
         eval "$(goenv init -)" 2>/dev/null || true
         
         log_info "Installing Go versions..."
-        goenv install 1.26.0 || log_warning "⚠ Could not install Go 1.26"
-        goenv install 1.25.0 || log_warning "⚠ Could not install Go 1.25"
+        for go_ver in "1.26.0" "1.25.0"; do
+            if goenv_version_installed "$go_ver"; then
+                log_success "✓ Go $go_ver is already installed. Skipping."
+            else
+                goenv install "$go_ver" || log_warning "⚠ Could not install Go $go_ver"
+            fi
+        done
         goenv global 1.26.0 || true
     fi
     
@@ -327,7 +208,7 @@ setup_ai_frameworks() {
 setup_apps() {
     print_section "Applications (Homebrew Casks)"
     
-    local APPS=(visual-studio-code cursor antigravity iterm2 podman-desktop ollama lm-studio anythingllm bruno rectangle draw-things diffusionbee upscayl strawberry steam epic-games)
+    local APPS=(visual-studio-code cursor antigravity iterm2 podman-desktop ollama lm-studio anythingllm bruno rectangle draw-things diffusionbee upscayl steam epic-games)
     
     log_info "Installing ${#APPS[@]} applications..."
     
@@ -341,7 +222,16 @@ setup_apps() {
 setup_cli_tools() {
     print_section "CLI Tools (Homebrew)"
     
-    local CLI_TOOLS=(gh jq fzf ripgrep podman podman-compose)
+    # Podman 5.x on macOS requires virtualization backends
+    # vfkit is standard, krunkit provides better performance on Apple Silicon
+    log_info "Installing Podman virtualization backends..."
+    if [ "$DRY_RUN" = true ]; then
+        log_info "[DRY-RUN] Would tap slp/homebrew-krunkit"
+    else
+        brew tap slp/homebrew-krunkit 2>/dev/null || log_warning "⚠ Could not tap slp/homebrew-krunkit"
+    fi
+    
+    local CLI_TOOLS=(gh jq fzf ripgrep podman podman-compose vfkit krunkit)
     
     log_info "Installing ${#CLI_TOOLS[@]} CLI tools..."
     
@@ -358,6 +248,42 @@ setup_cli_tools() {
     fi
     
     log_success "✓ All CLI tools installed successfully"
+}
+
+setup_docker_alias() {
+    print_section "Container Aliases (Docker -> Podman)"
+    
+    if ! command_exists podman; then
+        log_warning "⚠ Podman not found, skipping alias setup"
+        return 0
+    fi
+    
+    local alias_cmd="alias docker=podman"
+    local shell_configs=("$HOME/.zshrc" "$HOME/.bashrc")
+    local updated=false
+    
+    for config in "${shell_configs[@]}"; do
+        if [ -f "$config" ]; then
+            if ! grep -q "$alias_cmd" "$config"; then
+                if [ "$DRY_RUN" = true ]; then
+                    log_info "[DRY-RUN] Would add alias to $config"
+                else
+                    echo "" >> "$config"
+                    echo "# Podman alias for Docker compatibility" >> "$config"
+                    echo "$alias_cmd" >> "$config"
+                    log_success "✓ Added docker alias to $config"
+                    updated=true
+                fi
+            else
+                log_success "✓ Docker alias already exists in $config"
+            fi
+        fi
+    done
+    
+    if [ "$updated" = true ] && [ "$DRY_RUN" = false ]; then
+        log_info "Alias added. It will be available in new terminal sessions."
+        log_info "To use it in this session, run: source ~/.zshrc (or your shell config)"
+    fi
 }
 
 setup_vscode_extensions() {
@@ -411,7 +337,7 @@ print_summary() {
     fi
     
     if command_exists podman; then
-        echo -e "\033[0;32mPodman:\033[0m $(podman --version 2>/dev/null || echo 'N/A')"
+        echo -e "\033[0;32mDocker/Podman:\033[0m $(podman --version 2>/dev/null || echo 'N/A')"
     fi
     
     if command_exists gh; then
@@ -437,7 +363,7 @@ print_summary() {
     echo -e "   \033[0;34mjava -version\033[0m      # Java — expect 21.x or 17.x"
     echo -e "   \033[0;34mpython3 --version\033[0m  # Python — expect 3.12+"
     echo -e "   \033[0;34mollama --version\033[0m   # Ollama local LLM runner"
-    echo -e "   \033[0;34mpodman --version\033[0m   # Podman CLI"
+    echo -e "   \033[0;34mdocker --version\033[0m   # Podman aliased as docker"
     echo -e "   \033[0;34mgh --version\033[0m       # GitHub CLI"
     echo -e "   \033[0;34mcode --version\033[0m     # VS Code"
     echo ""
@@ -472,7 +398,7 @@ else
     echo ""
 
     # Ask for confirmation
-    read -p "Continue? (y/N) " -n 1 -r
+    read "REPLY?Continue? (y/N) "
     echo
 
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -492,6 +418,7 @@ setup_runtimes
 setup_ai_frameworks
 setup_apps
 setup_cli_tools
+setup_docker_alias
 setup_vscode_extensions
 
 # Print summary

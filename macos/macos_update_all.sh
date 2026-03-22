@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # macos_update_all.sh
 set -e
 
@@ -12,21 +12,8 @@ run_sdkman() {
     fi
 
     if [ -s "$SDKMAN_INIT" ]; then
-        if [ "${BASH_VERSINFO[0]}" -lt 4 ] && command -v zsh &> /dev/null; then
-            "$(command -v zsh)" -lc '
-                unset BASH_VERSION
-                export SDKMAN_DIR="$HOME/.sdkman"
-                source "$SDKMAN_DIR/bin/sdkman-init.sh"
-                sdk "$@"
-            ' zsh "$@"
-            return $?
-        fi
-
-        bash -lc '
-            export SDKMAN_DIR="$HOME/.sdkman"
-            source "$SDKMAN_DIR/bin/sdkman-init.sh"
-            sdk "$@"
-        ' bash "$@"
+        # On macOS, we use zsh which is modern enough for SDKMAN
+        zsh -lc "source $SDKMAN_INIT && sdk $@"
         return $?
     fi
 
@@ -51,7 +38,7 @@ else
     echo "⚠️  or environments managed by other tools or manual installations."
     echo ""
 
-    read -p "Continue? (y/N) " -n 1 -r
+    read "REPLY?Continue? (y/N) "
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         exit 0

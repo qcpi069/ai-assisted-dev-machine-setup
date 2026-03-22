@@ -91,6 +91,24 @@ install_apt() {
     fi
 }
 
+pyenv_version_installed() {
+    local version="$1"
+    if command -v pyenv &>/dev/null; then
+        pyenv versions --bare | grep -q "^${version}"
+        return $?
+    fi
+    return 1
+}
+
+goenv_version_installed() {
+    local version="$1"
+    if command -v goenv &>/dev/null; then
+        goenv versions --bare | grep -q "^${version}"
+        return $?
+    fi
+    return 1
+}
+
 # ============================================================================
 # MAIN SETUP FUNCTIONS
 # ============================================================================
@@ -289,8 +307,14 @@ setup_runtimes() {
         eval "$(pyenv init -)" 2>/dev/null || true
         
         log_info "Installing Python versions..."
-        pyenv install 3.13:latest || log_warning "⚠ Could not install Python 3.13"
-        pyenv install 3.12:latest || log_warning "⚠ Could not install Python 3.12"
+        for py_ver in "3.13:latest" "3.12:latest"; do
+            local base_ver=${py_ver%:latest}
+            if pyenv_version_installed "$base_ver"; then
+                log_success "✓ Python $base_ver is already installed. Skipping."
+            else
+                pyenv install "$py_ver" || log_warning "⚠ Could not install Python $py_ver"
+            fi
+        done
         
         # Set default Python version
         local latest_313=$(pyenv versions --bare | grep "3.13" | tail -1)
@@ -319,8 +343,13 @@ setup_runtimes() {
         eval "$(goenv init -)" 2>/dev/null || true
         
         log_info "Installing Go versions..."
-        goenv install 1.26.0 || log_warning "⚠ Could not install Go 1.26"
-        goenv install 1.25.0 || log_warning "⚠ Could not install Go 1.25"
+        for go_ver in "1.26.0" "1.25.0"; do
+            if goenv_version_installed "$go_ver"; then
+                log_success "✓ Go $go_ver is already installed. Skipping."
+            else
+                goenv install "$go_ver" || log_warning "⚠ Could not install Go $go_ver"
+            fi
+        done
         goenv global 1.26.0 || true
     fi
     
@@ -414,6 +443,42 @@ setup_cli_tools() {
     log_success "✓ All CLI tools installed successfully"
 }
 
+setup_docker_alias() {
+    print_section "Container Aliases (Docker -> Podman)"
+    
+    if ! command_exists podman; then
+        log_warning "⚠ Podman not found, skipping alias setup"
+        return 0
+    fi
+    
+    local alias_cmd="alias docker=podman"
+    local shell_configs=("$HOME/.bashrc" "$HOME/.zshrc")
+    local updated=false
+    
+    for config in "${shell_configs[@]}"; do
+        if [ -f "$config" ]; then
+            if ! grep -q "$alias_cmd" "$config"; then
+                if [ "$DRY_RUN" = true ]; then
+                    log_info "[DRY-RUN] Would add alias to $config"
+                else
+                    echo "" >> "$config"
+                    echo "# Podman alias for Docker compatibility" >> "$config"
+                    echo "$alias_cmd" >> "$config"
+                    log_success "✓ Added docker alias to $config"
+                    updated=true
+                fi
+            else
+                log_success "✓ Docker alias already exists in $config"
+            fi
+        fi
+    done
+    
+    if [ "$updated" = true ] && [ "$DRY_RUN" = false ]; then
+        log_info "Alias added. It will be available in new terminal sessions."
+        log_info "To use it in this session, run: source ~/.bashrc (or your shell config)"
+    fi
+}
+
 setup_applications() {
     print_section "GUI Applications (Apt/Snap)"
     
@@ -453,15 +518,15 @@ setup_applications() {
         fi
     fi
     
-    # Steam and Strawberry
-    log_info "Installing Steam and Strawberry..."
+    # Steam
+    log_info "Installing Steam..."
     if [ "$DRY_RUN" = true ]; then
-        log_info "[DRY-RUN] Would install steam and strawberry via apt"
+        log_info "[DRY-RUN] Would install steam via apt"
     else
-        if sudo apt install -y steam strawberry 2>/dev/null; then
-            log_success "✓ Steam and Strawberry installed successfully"
+        if sudo apt install -y steam 2>/dev/null; then
+            log_success "✓ Steam installed successfully"
         else
-            log_warning "⚠ Could not install Steam/Strawberry (may already be installed)"
+            log_warning "⚠ Could not install Steam (may already be installed)"
         fi
     fi
     
@@ -591,6 +656,7 @@ setup_shell
 setup_runtimes
 setup_ai_frameworks
 setup_cli_tools
+setup_docker_alias
 setup_applications
 
 # Print summary
