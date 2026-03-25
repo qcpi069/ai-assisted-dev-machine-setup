@@ -443,6 +443,27 @@ setup_cli_tools() {
     log_success "✓ All CLI tools installed successfully"
 }
 
+setup_opencode() {
+    print_section "OpenCode (AI Agent CLI Tool)"
+    
+    log_info "Installing OpenCode..."
+    
+    if [ "$DRY_RUN" = true ]; then
+        log_info "[DRY-RUN] Would install opencode via Homebrew"
+        return 0
+    fi
+    
+    if brew list opencode &>/dev/null; then
+        log_success "✓ OpenCode is already installed"
+    else
+        if brew install anomalyco/tap/opencode; then
+            log_success "✓ OpenCode installed successfully"
+        else
+            log_warning "⚠ Could not install OpenCode"
+        fi
+    fi
+}
+
 setup_docker_alias() {
     print_section "Container Aliases (Docker -> Podman)"
     
@@ -589,6 +610,10 @@ print_summary() {
         echo -e "\033[0;32mHomebrew:\033[0m $(brew --version | head -1 || echo 'N/A')"
     fi
     
+    if command_exists opencode; then
+        echo -e "\033[0;32mOpenCode:\033[0m $(opencode --version 2>/dev/null || echo 'N/A')"
+    fi
+    
     echo ""
     print_header "Next Steps"
     
@@ -656,6 +681,7 @@ setup_shell
 setup_runtimes
 setup_ai_frameworks
 setup_cli_tools
+setup_opencode
 setup_docker_alias
 setup_applications
 

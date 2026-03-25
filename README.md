@@ -18,7 +18,7 @@ A comprehensive, multi-platform workspace designed to automate the setup and man
 ---
 
 ## 🤖 Purpose & The Agent
-This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenClaw, LangChain, LangGraph, and Cline) and **Local LLMs** (via LM Studio and Ollama).
+This repository is built for **AI-native development**. It doesn't just install standard compilers and editors; it prepares your machine for **AI Agents** (like OpenCode, OpenClaw, LangChain, LangGraph, and Cline) and **Local LLMs** (via LM Studio and Ollama).
 
 ### Why use this?
 - **Standardization:** Ensure your development environment is consistent across different machines and OSs.
@@ -93,6 +93,7 @@ After running the script for your platform, confirm the key tools are installed:
 node -v          # Node.js (via NVM)
 java -version    # Java (via SDKMAN)
 python3 --version  # Python (via Pyenv)
+opencode --version  # OpenCode (AI Agent CLI)
 # LM Studio: Preferred LLM host (Check Applications/Start Menu)
 ollama --version # Ollama (secondary LLM runner)
 docker --version # Podman (aliased as docker)
@@ -110,6 +111,7 @@ gh --version     # GitHub CLI
 - **Local Image Gen:** Tools like DiffusionBee and Upscayl.
 
 ### 🤖 Agent Frameworks
+- **OpenCode:** Interactive AI coding assistant via terminal.
 - **OpenClaw:** Personal AI assistant.
 - **LangChain & LangGraph:** Build and orchestrate AI agent pipelines.
 - **Cline & Cursor:** AI-powered coding and autonomous agents within your editor.
@@ -125,6 +127,9 @@ gh --version     # GitHub CLI
 - **Bruno:** Open-source API testing (Postman alternative).
 - **Shell:** Zsh with Oh My Zsh.
 - **Editors:** VS Code, Cursor, and Antigravity (AI-powered IDE).
+
+### 🔧 CLI Tools
+- **OpenCode:** `brew install anomalyco/tap/opencode` — Interactive CLI tool for AI-assisted development.
 
 ---
 
